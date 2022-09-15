@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FOLI X CURE</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<br>
+
+<body>
+    <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+    <h1>Edit Treatment</h1>
+    <form action="/treatments/<%=treatment._id%>?_method=PUT" method="POST">
+        <!--  NOTE: the form is pre-populated with values for the server-->
+        Title: <input type="text" name="treatment" value="<%=treatment.treatment%>" /><br />
+        Author: <input type="text" name="clinic" value="<%=treatment.clinic%>" /><br />
+        Completed: <input type="checkbox" name="completed" <% if(treatment.completed===true){ %> checked <% } %> />
+            <br />
+            <input type="submit" value="Submit Changes" />
+    </form>
+</body>
+
+</html>
