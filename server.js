@@ -5,17 +5,16 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const Treatment = require("./models/treatment.js");
 const methodOverride = require("method-override");
-const db = mongoose.connection
-const PORT = process.env.PORT || 3001;
-const MONGODB_URI = process.env.MONGODB_URI;
+
 // DATABASE CONFIGURATION
-mongoose.connect(MONGODB_URI, {
+mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
 // Database Connection Error/Success
-
+// Define callback functions for various events
+const db = mongoose.connection
 db.on('error', (err) => console.log(err.message + ' is mongo not running?'));
 db.on('connected', () => console.log('MONGO IS CONNECTED TO FOLI X CURE'));
 db.on('disconnected', () => console.log('MONGO HAS DISCONNECTED FROM FOLI X CURE'));
@@ -24,11 +23,11 @@ db.on('disconnected', () => console.log('MONGO HAS DISCONNECTED FROM FOLI X CURE
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use('/css', express.static('css'));
-app.use(express.static('public'));
+
 // ROUTES
 
 // INDEX
-app.get('/', (req, res) => {
+app.get('/treatments', (req, res) => {
     Treatment.find({}, (error, allTreatments) => {
         res.render('index.ejs', {
             treatments: allTreatments,
@@ -74,6 +73,7 @@ app.post("/treatments", (req, res) => {
         //if checked, req.body.completed is set to 'on'
         req.body.completed = true;
     } else {
+        //if not checked, req.body.completed is undefined
         req.body.completed = false;
     }
     Treatment.create(req.body, (error, createdTreatment) => {
@@ -98,8 +98,7 @@ app.get("/treatments/:id", (req, res) => {
 })
 
 // LISTENER
-
-
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`FOLI X CURE IS LISTENENING: ${PORT}`)
 })
