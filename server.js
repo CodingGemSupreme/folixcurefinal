@@ -7,7 +7,7 @@ const Treatment = require("./models/treatment.js");
 const methodOverride = require("method-override");
 
 // DATABASE CONFIGURATION
-mongoose.connect(process.env.DATABASE_URL, {
+mongoose.connect(process.env.DATABASE_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
